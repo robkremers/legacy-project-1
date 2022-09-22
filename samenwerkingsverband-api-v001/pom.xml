@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.6</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>nl.bkwi</groupId>
+    <artifactId>samenwerkingsverband-api-v001</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>samenwerkingsverband-api-v001</name>
+    <description>samenwerkingsverband-api-v001</description>
+    <properties>
+        <java.version>17</java.version>
+        <cucumber.version>6.11.0</cucumber.version>
+        <restassured.version>4.3.3</restassured.version>
+        <jacoco.version>0.8.7</jacoco.version>
+    </properties>
+    <dependencies>
+
+      <dependency>
+        <groupId>org.springframework.integration</groupId>
+        <artifactId>spring-integration-test</artifactId>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-validation</artifactId>
+      </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Please leave do not change to the latest version. Somehow does not work. -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-test</artifactId>
+          <scope>test</scope>
+        </dependency>
+
+      <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>7.0.4.Final</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-sleuth</artifactId>
+        <version>3.1.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>ch.qos.logback.contrib</groupId>
+        <artifactId>logback-jackson</artifactId>
+        <version>0.1.5</version>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback.contrib</groupId>
+        <artifactId>logback-json-classic</artifactId>
+        <version>0.1.5</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-ui</artifactId>
+        <version>1.6.6</version>
+      </dependency>
+
+      <dependency>
+        <groupId>nl.bkwi.samenwerkingsverband</groupId>
+        <artifactId>contract</artifactId>
+        <version>1.0.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.junit.vintage</groupId>
+        <artifactId>junit-vintage-engine</artifactId>
+        <version>5.8.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-junit</artifactId>
+        <version>${cucumber.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>${cucumber.version}</version>
+        <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${restassured.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${jacoco.version}</version>
+          <configuration>
+            <excludes>
+
+            </excludes>
+            <includes>
+              <include>nl/bkwi/**/**/*</include>
+            </includes>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>prepare-agent</goal>
+                <goal>report</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>2.5.5</version>
+        </plugin>
+        <plugin>
+          <groupId>com.google.cloud.tools</groupId>
+          <artifactId>jib-maven-plugin</artifactId>
+          <version>3.2.1</version>
+          <configuration>
+            <from>
+              <image>gcr.io/distroless/java17-debian11</image>
+            </from>
+            <to>
+              <image>gitlab.bkwi.nl:4567/inkijk/samenwerkingsverband/${project.artifactId}</image>
+            </to>
+            <container>
+              <jvmFlags>
+                <jvmFlag>-XshowSettings:VM</jvmFlag>
+                <jvmFlag>-XX:MaxRAMPercentage=75</jvmFlag>
+              </jvmFlags>
+            </container>
+          </configuration>
+        </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+            <configuration>
+              <source>17</source>
+              <target>17</target>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.22.0</version>
+            <configuration>
+              <excludes>
+                <exclude>**/*CucumberIT</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+    </build>
+
+  <profiles>
+    <profile>
+      <id>bdd-test-local</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>${maven-failsafe-plugin.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+                <configuration>
+                  <parallel>methods</parallel>
+                  <useUnlimitedThreads>true</useUnlimitedThreads>
+                  <includes>
+                    <include>**/*CucumberIT</include>
+                  </includes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>bdd-test-remote-target</id>
+      <!-- this profile is executed after the deployment phase -->
+      <properties>
+        <!--          url_that_is_overwritten_in_the_pipeline -->
+        <acceptatietest.targetUrl>
+          http://localhost:8777
+        </acceptatietest.targetUrl>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>${maven-failsafe-plugin.version}</version>
+            <configuration>
+              <systemPropertyVariables>
+                <acceptatietest.targetUrl>${acceptatietest.targetUrl}</acceptatietest.targetUrl>
+              </systemPropertyVariables>
+              <includes>
+                <include>**/*CucumberIT</include>
+              </includes>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+                <configuration>
+                  <parallel>methods</parallel>
+                  <useUnlimitedThreads>true</useUnlimitedThreads>
+                  <systemPropertyVariables>
+                    <acceptatietest.targetUrl>${acceptatietest.targetUrl}</acceptatietest.targetUrl>
+                  </systemPropertyVariables>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+
+</project>

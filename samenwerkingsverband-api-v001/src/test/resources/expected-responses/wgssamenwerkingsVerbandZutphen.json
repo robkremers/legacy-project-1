@@ -1,0 +1,12 @@
+{
+  "gemeentes": [
+    {
+      "gemeente": "Zutphen",
+      "voorkeursgemeente": 1
+    },
+    {
+      "gemeente": "Zoeterwoude",
+      "voorkeursgemeente": 0
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+spring:
+  jpa:
+    hibernate:
+      # Validate the schema during application startup.
+      ddl-auto: validate
+    show-sql: true
+    database: mysql
+
+server:
+  port: 8082
+
+# MySQL connectivity  properties to database useradmin en suwinetinkijk.
+application:
+  datasource:
+    # Connection for database useradmin: tables gemeente_participatie, samenwerkingsverband.
+    useradmin:
+      jdbc-url: jdbc:mysql://localhost:3306/useradmin
+      username: root
+      password: vagrant
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    # Connection for database suwinetinkijk: table profile.
+    suwinetinkijk:
+      jdbc-url: jdbc:mysql://localhost:3306/suwinetinkijk
+      username: root
+      password: vagrant
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+logging:
+  level:
+    nl:
+      bkwi:
+        samenwerkingsverbandapiv001: debug

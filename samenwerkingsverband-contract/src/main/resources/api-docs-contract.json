@@ -1,0 +1,74 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Samenwerkingsverband API",
+    "description": "Overzicht van de gemeentes in een samenwerkingsverband, met opgave van de voorkeursgemeente, voor een gegeven gebruiker, geïdentificeerd met een DN",
+    "version": "001"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9090",
+      "description": "Local",
+      "variables": {}
+    }
+  ],
+  "paths": {
+    "/gemeentes-in-samenwerkingsverband": {
+      "get": {
+        "tags": [
+          "samenwerkingsverband-rest-controller"
+        ],
+        "operationId": "getGemeentesInSamenwerkingsverband",
+        "parameters": [
+          {
+            "name": "userDn",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "default response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SamenwerkingsverbandDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GemeenteDto": {
+        "type": "object",
+        "properties": {
+          "gemeente": {
+            "type": "string"
+          },
+          "voorkeursgemeente": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SamenwerkingsverbandDto": {
+        "type": "object",
+        "properties": {
+          "gemeentes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GemeenteDto"
+            }
+          }
+        }
+      }
+    }
+  }
+}

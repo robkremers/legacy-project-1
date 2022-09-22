@@ -1,0 +1,178 @@
+default:
+  image: gitlab.bkwi.nl:4567/bkwi/beheer/infraops/ontwikkeltooling/bkwi-maven-kubectl:latest
+
+stages:
+  - development
+  - test
+  - acceptatie
+  - productie
+
+.common:
+  before_script:
+    - |
+      echo "Defining functions"
+      function createOrReplaceResource() {
+        local FILE=$1
+        local RESOURCE_TYPE=$2
+        local FILTER_OPTIONS=$3
+        local FILTER=$4
+
+        createOrReplaceResourceSingleCluster $KUBE_CONFIG1 "${FILE}" "${RESOURCE_TYPE}" "${FILTER_OPTIONS}" "${FILTER}"
+        if [ -n "$KUBE_CONFIG2" ]; then
+          createOrReplaceResourceSingleCluster $KUBE_CONFIG2 "${FILE}" "${RESOURCE_TYPE}" "${FILTER_OPTIONS}" "${FILTER}"
+        fi
+      }
+
+      function createOrReplaceResourceSingleCluster() {
+          local KUBE_CONFIG=$1
+          local FILE=$2
+          local RESOURCE_TYPE=$3
+          local FILTER_OPTIONS=$4
+          local FILTER=$5
+
+          local OBJECTS=$(kubectl --kubeconfig ${KUBE_CONFIG} -n ${NAMESPACE} \
+              get ${RESOURCE_TYPE} \
+              -o jsonpath='{.items[*].metadata.name}' \
+            | tr '[[:space:]]' '\n' \
+            | grep -v default \
+            | grep ${FILTER_OPTIONS} "${FILTER}")
+            
+          if [ -n "${OBJECTS}" ]; then
+            echo "Deleting ${RESOURCE_TYPE} from ${NAMESPACE}"
+            kubectl --kubeconfig ${KUBE_CONFIG} -n ${NAMESPACE} \
+              delete ${RESOURCE_TYPE} ${OBJECTS}
+          else 
+            echo "No existing ${RESOURCE_TYPE} for ${NAMESPACE}"
+          fi
+          
+          if [ -z "$ONLY_DELETE" ]; then
+            echo "Applying ${RESOURCE_TYPE} to ${NAMESPACE}"
+            kubectl --kubeconfig ${KUBE_CONFIG} -n ${NAMESPACE} \
+              apply -f ${FILE}    
+          fi
+      }
+
+      echo "Determining variables..."
+      case ${CI_ENVIRONMENT_NAME} in
+        *development)
+        export KUBE_CONFIG1=${KUBE_CONFIG_DEVELOPMENT}
+        export KUBE_CONFIG2=
+        export NAMESPACE=services-inkijk-development
+        ;;
+      *test)
+        export KUBE_CONFIG1=${KUBE_CONFIG_TEST}
+        export KUBE_CONFIG2=
+        export NAMESPACE=services-inkijk
+        ;;
+      *acceptatie)
+        export KUBE_CONFIG1=${KUBE_CONFIG_ACCEPTATIE1}
+        export KUBE_CONFIG2=${KUBE_CONFIG_ACCEPTATIE2}
+        export NAMESPACE=services-inkijk
+        ;;
+      *productie)
+        export KUBE_CONFIG1=${KUBE_CONFIG_PRODUCTIE1}
+        export KUBE_CONFIG2=${KUBE_CONFIG_PRODUCTIE2}
+        export NAMESPACE=services-inkijk
+        ;;
+      esac
+      if [ -z "${KUBE_CONFIG1}" ]; then
+        echo "ERROR: Unknown environment (${CI_ENVIRONMENT_NAME}) or the CI / CD kube config pipeline variables are not set!"
+        exit 1
+      fi
+
+.restart_deployments:
+  extends: .common
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: manual
+    - when: never
+  allow_failure: true
+  script:
+    - |
+      echo "Restarting all deployments in '${CI_ENVIRONMENT_NAME}'"
+
+      kubectl --kubeconfig ${KUBE_CONFIG1} -n ${NAMESPACE} \
+        rollout restart deployment \
+        $(kubectl --kubeconfig ${KUBE_CONFIG1} -n ${NAMESPACE} \
+          get deployment \
+          -o jsonpath='{.items[*].metadata.name}')
+      if [ -e ${KUBE_CONFIG2} ]; then
+        kubectl --kubeconfig ${KUBE_CONFIG2} -n ${NAMESPACE} \
+          rollout restart deployment \
+          $(kubectl --kubeconfig ${KUBE_CONFIG2} -n ${NAMESPACE} \
+            get deployment \
+            -o jsonpath='{.items[*].metadata.name}')
+      fi
+
+.configuratie:
+  extends: .common
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: manual
+    - when: never
+  allow_failure: true
+  script:
+    - |
+      createOrReplaceResource \
+        "dxc/namespaces/${CI_ENVIRONMENT_NAME}/regcred-bkw-gitlab.yml" \
+        "secrets" \
+        "" "regcred-bkw-gitlab"
+
+      createOrReplaceResource \
+        "dxc/namespaces/${CI_ENVIRONMENT_NAME}/service-accounts.yml" \
+        "serviceaccounts" \
+        "-v" "gitlab-deployer"
+
+      createOrReplaceResource \
+        "dxc/namespaces/${CI_ENVIRONMENT_NAME}/autorization-policy.yml" \
+        "authorizationpolicies" \
+        "-vE" "(temp|monitoring|performance)"
+        
+configuratie-development:
+  extends: .configuratie
+  stage: development
+  environment:
+    name: development
+
+restart-development:
+  extends: .restart_deployments
+  stage: development
+  environment:
+    name: development
+
+configuratie-test:
+  extends: .configuratie
+  stage: test
+  environment:
+    name: test
+
+restart-test:
+  extends: .restart_deployments
+  stage: test
+  environment:
+    name: test
+
+configuratie-acceptatie:
+  extends: .configuratie
+  stage: acceptatie
+  environment:
+    name: acceptatie
+
+restart-acceptatie:
+  extends: .restart_deployments
+  stage: acceptatie
+  environment:
+    name: acceptatie
+
+configuratie-productie:
+  extends: .configuratie
+  stage: productie
+  environment:
+    name: productie
+
+restart-productie:
+  extends: .restart_deployments
+  stage: productie
+  environment:
+    name: productie
+

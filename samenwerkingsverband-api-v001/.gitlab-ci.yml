@@ -1,0 +1,7 @@
+include:
+  - project: "bkwi/beheer/infraops/ontwikkeltooling/gitlab-ci"
+    file: "gitlab-ci-yml/microservice-deploy.yml"
+
+variables:
+  SUPPORT_LATEST_TAG: "true"
+  SKIP_SERENITY: "true"

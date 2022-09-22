@@ -1,0 +1,28 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: h2
+    hibernate:
+      # Create the schema during application startup.
+      ddl-auto: create
+    show-sql: true
+server:
+  port: 8777
+
+acceptatietest:
+  targetUrl: http://localhost:8777
+
+application:
+  datasource:
+    # Connection for database useradmin: tables gemeente_participatie, samenwerkingsverband.
+    useradmin:
+      jdbc-url: jdbc:mysql://localhost:3313/useradmin
+      username: useradmindml
+      password: bkwi
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    # Connection for database suwinetinkijk: table profile.
+    suwinetinkijk:
+      jdbc-url: jdbc:mysql://localhost:3314/suwinetinkijk
+      username: suwinetinkijk
+      password: bkwi
+      driver-class-name: com.mysql.cj.jdbc.Driver

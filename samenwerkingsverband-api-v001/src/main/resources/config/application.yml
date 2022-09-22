@@ -1,0 +1,59 @@
+spring:
+  jpa:
+    hibernate:
+      # Validate the schema during application startup.
+      ddl-auto: validate
+    show-sql: false
+    database: mysql
+  sleuth:
+    propagation-keys: [ X-Correlation-ID ]
+    log:
+      slf4j:
+        whitelisted-mdc-keys: [ X-Correlation-ID ]
+    sampler:
+      percentage: 1.0
+    zipkin:
+      baseUrl: http://localhost:9411/
+
+server:
+  port: 8080
+  openapi:
+    uri: gemeentes-in-samenwerkingsverband
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-exception: false
+
+application:
+  datasource:
+    # Connection for database useradmin: tables gemeente_participatie, samenwerkingsverband.
+    useradmin:
+      jdbc-url: jdbc:mysql://database-useradmin:3306/useradmin
+      username: useradmin
+      password: bkwi
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    # Connection for database suwinetinkijk: table profile.
+    suwinetinkijk:
+      jdbc-url: jdbc:mysql://database-suwinetinkijk:3306/suwinetinkijk
+      username: suwinetinkijk
+      password: bkwi
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,loggers
+      base-path: /
+  endpoint:
+    loggers:
+      enabled: true
+
+logging:
+  level:
+    nl:
+      bkwi:
+        samenwerkingsverbandapiv001: info
+
+

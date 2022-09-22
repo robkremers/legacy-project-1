@@ -1,0 +1,57 @@
+#MacOS specific files
+.DS_Store
+
+#Eclipse specific files
+.classpath
+.project
+.settings
+.recommenders
+.metadata
+bin
+*/*/.factorypath
+
+#Maven specific files
+target
+temp
+*/*/logs
+*/*/.apt_generated
+*/*/.apt_generated_tests
+*/*/cobertura.ser
+*/*/.fbprefs
+*/*/.checkstyle
+**/src/main/webapp/META-INF
+*/*/src/test/java/META-INF
+*/*/*.log
+*.sass-cache
+
+# Intellij
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Netbeans specific files
+nb-*.xml
+
+# NodeJS specific files
+*/*/build
+*/*/node_modules
+
+# Inkijk generated Excel sheets
+inkijk/tooling/analyse
+inkijk/tooling/workspace
+
+# Broker configuration generator
+shared/**/GeneratedMessageMD.txt
+
+# Temporary files created by Archi
+*.bak
+
+# Temporary files created by Vim
+*.swp
+
+# Docker data seeds
+docker/*/seed
+docker/database
+docker/.env
+*.ajsv

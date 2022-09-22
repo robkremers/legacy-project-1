@@ -1,0 +1,6 @@
+bases:
+  - git@gitlab.bkwi.nl:bkwi/beheer/infraops/ontwikkeltooling/gitlab-ci.git/kustomize-vs
+configMapGenerator:
+  - behavior: merge
+    env: bkwi.properties
+    name: 0bkwi-vars

@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  ammipa01-bkwi-local.pem: RHVtbXkgdmFsdWU=
+kind: Secret
+metadata:
+  name: ammipa01-root-ca
+type: Opaque

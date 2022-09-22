@@ -1,0 +1,19 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: edge-inbound
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      tier: edge-inbound
+  rules:
+    - from:
+        - source:
+            principals: 
+              - "cluster.local/ns/eqap-istio-gateway/sa/istio-ingressgateway"
+      to:
+        - operation:
+            methods: ["GET", "POST"]
+            paths: ["/*"]
+            

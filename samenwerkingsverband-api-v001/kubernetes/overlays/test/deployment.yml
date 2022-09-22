@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $(PROJECT_IN_NAME)
+spec:
+  template:
+    spec:
+      containers:
+        - name: $(PROJECT)
+          env:
+            - name: DB_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: sa-db-1login
+                  key: DB_SERVER
+            - name: application.datasource.suwinetinkijk.jdbc-url
+              value: jdbc:mysql://$(DB_SERVER):3306/suwinetinkijk
+            - name: application.datasource.suwinetinkijk.username
+              valueFrom:
+                secretKeyRef:
+                  name: sa-db-1login
+                  key: DB_USER
+            - name: application.datasource.suwinetinkijk.password
+              valueFrom:
+                secretKeyRef:
+                  name: sa-db-1login
+                  key: DB_PASSWORD
+            - name: application.datasource.useradmin.jdbc-url
+              value: jdbc:mysql://$(DB_SERVER):3306/useradmin
+            - name: application.datasource.useradmin.username
+              valueFrom:
+                secretKeyRef:
+                  name: sa-db-1login
+                  key: DB_USER
+            - name: application.datasource.useradmin.password
+              valueFrom:
+                secretKeyRef:
+                  name: sa-db-1login
+                  key: DB_PASSWORD

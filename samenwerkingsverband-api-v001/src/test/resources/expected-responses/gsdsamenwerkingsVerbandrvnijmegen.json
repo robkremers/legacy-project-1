@@ -1,0 +1,32 @@
+{
+  "gemeentes": [
+    {
+      "gemeente": "Berg en Dal",
+      "voorkeursgemeente": 0
+    },
+    {
+      "gemeente": "Beuningen",
+      "voorkeursgemeente": 0
+    },
+    {
+      "gemeente": "Druten",
+      "voorkeursgemeente": 0
+    },
+    {
+      "gemeente": "Heumen",
+      "voorkeursgemeente": 0
+    },
+    {
+      "gemeente": "Mook en Middelaar",
+      "voorkeursgemeente": 0
+    },
+    {
+      "gemeente": "Nijmegen",
+      "voorkeursgemeente": 0
+    },
+    {
+      "gemeente": "Wijchen",
+      "voorkeursgemeente": 0
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+before() {
+  echo Starting port-forward ...
+
+  startPortForwarding useradmin database-useradmin 3313 3306
+  startPortForwarding suwinetinkijk database-suwinetinkijk 3314 3306
+}
+
+after() {
+  echo Stopping port-forward ...
+
+  stopPortForwarding
+}

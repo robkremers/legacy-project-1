@@ -1,0 +1,15 @@
+# MySQL connectivity  properties to database useradmin en suwinetinkijk.
+application:
+  datasource:
+    # Connection for database useradmin: tables gemeente_participatie, samenwerkingsverband.
+    useradmin:
+      jdbc-url: jdbc:mysql://database-useradmin:3306/useradmin
+      username: useradmin
+      password: bkwi
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    # Connection for database suwinetinkijk: table profile.
+    suwinetinkijk:
+      jdbc-url: jdbc:mysql://database-suwinetinkijk:3306/suwinetinkijk
+      username: suwinetinkijk
+      password: bkwi
+      driver-class-name: com.mysql.cj.jdbc.Driver

@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJnaXRsYWIuYmt3aS5ubDo0NTY3Ijp7InVzZXJuYW1lIjoiazhzX2dpdGxhYiIsInBhc3N3b3JkIjoiVHY3aE56REdxWUJkZnRwejg2eFciLCJhdXRoIjoiYXpoelgyZHBkR3hoWWpwVWRqZG9UbnBFUjNGWlFtUm1kSEI2T0RaNFZ3PT0ifX19
+kind: Secret
+metadata:
+  name: regcred-bkw-gitlab
+  namespace: services-inkijk-development
+type: kubernetes.io/dockerconfigjson

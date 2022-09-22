@@ -1,0 +1,17 @@
+{
+  "gemeentes": [
+    {
+      "gemeente": "Dummy Gemeente Veenendaal",
+      "voorkeursgemeente": 0
+    },
+    {
+      "gemeente": "Renswoude",
+      "voorkeursgemeente": 1
+    },
+    {
+      "gemeente": "Rhenen",
+      "voorkeursgemeente": 0
+    }
+  ]
+}
+
